@@ -1,0 +1,5 @@
+{
+  "name": "Poster Generator AI",
+  "description": "An AI-powered application that generates stunning posters from a user-uploaded image and a text prompt. Leveraging the Gemini API, it intelligently edits and restyles images to create unique, high-quality promotional materials.",
+  "requestFramePermissions": []
+}
