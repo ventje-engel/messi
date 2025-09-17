@@ -9,7 +9,7 @@ export function fileToGenerativePart(file: File): Promise<{ inlineData: { mimeTy
     const reader = new FileReader();
     reader.onload = () => {
       if (typeof reader.result !== 'string') {
-        return reject(new Error('Failed to read file as base64 string.'));
+        return reject(new Error('Failed to read file.'));
       }
       // The result includes the data URL prefix (e.g., "data:image/png;base64,"), 
       // which we need to remove.
