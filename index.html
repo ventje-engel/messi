@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -6,6 +5,17 @@
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Poster Generator AI</title>
+    <script>
+      // This object is used to polyfill process.env for the client-side code.
+      // The placeholders will be replaced by the entrypoint.sh script at runtime.
+      window.process = { 
+        env: { 
+          API_KEY: "__API_KEY_PLACEHOLDER__",
+          SUPABASE_URL: "https://fmwatjiqemmxqhywuqgp.supabase.co",
+          SUPABASE_ANON_KEY: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZtd2F0amlxZW1teHFoeXd1cWdwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTgxNzI5MTUsImV4cCI6MjA3Mzc0ODkxNX0.dv0KPZKK1jpggJXmetZNSjteFfjD8wrLIUM-T4Vz9a0"
+        } 
+      };
+    </script>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {
@@ -39,7 +49,8 @@
     "react/": "https://aistudiocdn.com/react@^19.1.1/",
     "react": "https://aistudiocdn.com/react@^19.1.1",
     "@google/genai": "https://aistudiocdn.com/@google/genai@^1.20.0",
-    "react-dom/": "https://aistudiocdn.com/react-dom@^19.1.1/"
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.1.1/",
+    "@supabase/supabase-js": "https://esm.sh/@supabase/supabase-js@2"
   }
 }
 </script>

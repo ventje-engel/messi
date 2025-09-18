@@ -1,7 +1,6 @@
-
 // FIX: Remove InlineDataPart from import as it is not an exported member.
 import { GoogleGenAI, Modality, GenerateContentResponse } from "@google/genai";
-import { GenerationResult } from "./types";
+import { GenerationResult as StoredGenerationResult } from "../types";
 
 if (!process.env.API_KEY) {
   throw new Error("API_KEY environment variable is not set.");
@@ -10,11 +9,15 @@ if (!process.env.API_KEY) {
 const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
 const model = 'gemini-2.5-flash-image-preview';
 
+// This type represents the full data returned from the API call, including the image data.
+export type ApiGenerationResult = StoredGenerationResult & { imageB64: string };
+
+
 export async function generatePoster(
   // FIX: Use an inline type for the image part, as InlineDataPart is not an exported member.
   imagePart: { inlineData: { data: string; mimeType: string; } },
   prompt: string
-): Promise<GenerationResult | null> {
+): Promise<ApiGenerationResult | null> {
   try {
     const textPart = {
       text: `Create a poster based on the provided image and the following instructions. The output MUST be an image. Instructions: ${prompt}`,

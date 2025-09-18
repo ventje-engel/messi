@@ -1,25 +1,33 @@
 
-import React, { useState, useCallback, useRef } from 'react';
+import React, { useState, useCallback, useRef, useEffect } from 'react';
 import { UploadIcon } from './icons/UploadIcon';
 
 interface ImageUploaderProps {
   onImageUpload: (file: File) => void;
+  image: File | null;
 }
 
-export const ImageUploader: React.FC<ImageUploaderProps> = ({ onImageUpload }) => {
+export const ImageUploader: React.FC<ImageUploaderProps> = ({ onImageUpload, image }) => {
   const [preview, setPreview] = useState<string | null>(null);
   const [isDragging, setIsDragging] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (image) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPreview(reader.result as string);
+      };
+      reader.readAsDataURL(image);
+    } else {
+      setPreview(null);
+    }
+  }, [image]);
 
   const handleFileChange = useCallback((files: FileList | null) => {
     if (files && files[0]) {
       const file = files[0];
       if (file.type.startsWith('image/')) {
-        const reader = new FileReader();
-        reader.onloadend = () => {
-          setPreview(reader.result as string);
-        };
-        reader.readAsDataURL(file);
         onImageUpload(file);
       }
     }

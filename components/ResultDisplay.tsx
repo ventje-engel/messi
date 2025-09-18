@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { GenerationStatus, GenerationResult } from '../types';
 import { Loader } from './Loader';
@@ -7,6 +6,7 @@ import { DownloadIcon } from './icons/DownloadIcon';
 interface ResultDisplayProps {
   status: GenerationStatus;
   originalImage: File | null;
+  generatedImageUrl: string | null;
   generationResult: GenerationResult | null;
   error: string | null;
 }
@@ -53,8 +53,7 @@ const StatsDisplay: React.FC<{ result: GenerationResult }> = ({ result }) => (
   </div>
 );
 
-const SuccessState: React.FC<{ originalImage: File; generationResult: GenerationResult }> = ({ originalImage, generationResult }) => {
-    const generatedImage = `data:image/png;base64,${generationResult.imageB64}`;
+const SuccessState: React.FC<{ originalImage: File; generatedImageUrl: string; generationResult: GenerationResult }> = ({ originalImage, generatedImageUrl, generationResult }) => {
     return (
         <div className="animate-fade-in w-full">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -64,9 +63,9 @@ const SuccessState: React.FC<{ originalImage: File; generationResult: Generation
                 </div>
                 <div className="relative">
                     <h3 className="font-bold text-lg mb-2 text-center">Generated Poster</h3>
-                    <img src={generatedImage} alt="Generated Poster" className="w-full h-auto object-contain rounded-lg shadow-md max-h-[60vh]"/>
+                    <img src={generatedImageUrl} alt="Generated Poster" className="w-full h-auto object-contain rounded-lg shadow-md max-h-[60vh]"/>
                     <a
-                      href={generatedImage}
+                      href={generatedImageUrl}
                       download="generated-poster.png"
                       className="absolute top-14 right-2 mt-2 mr-2 flex items-center px-4 py-2 bg-brand-primary text-white font-semibold rounded-lg shadow-lg hover:bg-brand-secondary transition-colors duration-200"
                     >
@@ -81,14 +80,14 @@ const SuccessState: React.FC<{ originalImage: File; generationResult: Generation
 };
 
 
-export const ResultDisplay: React.FC<ResultDisplayProps> = ({ status, originalImage, generationResult, error }) => {
+export const ResultDisplay: React.FC<ResultDisplayProps> = ({ status, originalImage, generatedImageUrl, generationResult, error }) => {
   return (
     <div className="w-full h-full min-h-[60vh] flex items-center justify-center bg-base-100 rounded-lg p-4">
       {status === GenerationStatus.IDLE && <IdleState />}
       {status === GenerationStatus.LOADING && <Loader />}
       {status === GenerationStatus.ERROR && error && <ErrorState error={error} />}
-      {status === GenerationStatus.SUCCESS && generationResult && originalImage && (
-        <SuccessState originalImage={originalImage} generationResult={generationResult} />
+      {status === GenerationStatus.SUCCESS && generatedImageUrl && generationResult && originalImage && (
+        <SuccessState originalImage={originalImage} generatedImageUrl={generatedImageUrl} generationResult={generationResult} />
       )}
     </div>
   );
